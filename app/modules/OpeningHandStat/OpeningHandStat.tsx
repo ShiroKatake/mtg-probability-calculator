@@ -1,14 +1,15 @@
 import { useAppContext } from "@/app/context/AppContext";
 import { hypergeometric } from "@/app/utils/hypergeometric/hypergeometric";
+import { percentage } from "@/app/utils/percentage/percentage";
 
 interface Props {
   children?: React.ReactNode;
 }
 
 export const OpeningHandStat: React.FC<Props> = ({ children }) => {
-  const { N, n, k, x } = useAppContext();
+  const { deckSize, cardsDrawn, successInDeck, successInHand, calculate } = useAppContext();
 
-  console.log(hypergeometric(N, n, k, x));
+  const pExact = percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, successInHand));
 
-  return <div>{children}</div>;
+  return calculate && <div>{pExact}</div>;
 };
