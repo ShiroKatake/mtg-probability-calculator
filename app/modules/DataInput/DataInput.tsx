@@ -1,11 +1,16 @@
 "use client";
 import { Input } from "./components/Input/Input";
 import { Button } from "primereact/button";
-import { hypergeometric } from "../../utils/hypergeometric/hypergeometric";
 import { useAppContext } from "@/app/context/AppContext";
+import { useState } from "react";
 
 export default function Home() {
-  const { N, setN, n, setn, k, setk, x, setx } = useAppContext();
+  const { setDeckSize, setCardsDrawn, setSuccessInDeck, setSuccessInHand, setCalculate } = useAppContext();
+  const [N, setN] = useState(99);
+  const [n, setn] = useState(7);
+  const [k, setk] = useState(10);
+  const [x, setx] = useState(1);
+
   return (
     <main>
       <form className="flex flex-column gap-3">
@@ -46,7 +51,11 @@ export default function Home() {
           label="Calculate"
           onClick={(e) => {
             e.preventDefault();
-            hypergeometric(N, n, k, x);
+            setDeckSize(N);
+            setCardsDrawn(n);
+            setSuccessInDeck(k);
+            setSuccessInHand(x);
+            setCalculate(true);
           }}
         />
       </form>

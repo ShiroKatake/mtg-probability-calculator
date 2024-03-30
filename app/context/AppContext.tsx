@@ -5,33 +5,38 @@ interface AppContextProviderProps {
 }
 
 interface IAppContext {
-  N: number;
-  setN: React.Dispatch<React.SetStateAction<number>>;
-  n: number;
-  setn: React.Dispatch<React.SetStateAction<number>>;
-  k: number;
-  setk: React.Dispatch<React.SetStateAction<number>>;
-  x: number;
-  setx: React.Dispatch<React.SetStateAction<number>>;
+  deckSize: number;
+  setDeckSize: (deckSize: number) => void;
+  cardsDrawn: number;
+  setCardsDrawn: (cardsDrawn: number) => void;
+  successInDeck: number;
+  setSuccessInDeck: (successInDeck: number) => void;
+  successInHand: number;
+  setSuccessInHand: (successInHand: number) => void;
+  calculate: boolean;
+  setCalculate: (calculate: boolean) => void;
 }
 
 export const AppContext = createContext({} as IAppContext);
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [N, setN] = useState(99);
-  const [n, setn] = useState(7);
-  const [k, setk] = useState(10);
-  const [x, setx] = useState(1);
+  const [deckSize, setDeckSize] = useState(99);
+  const [cardsDrawn, setCardsDrawn] = useState(7);
+  const [successInDeck, setSuccessInDeck] = useState(10);
+  const [successInHand, setSuccessInHand] = useState(1);
+  const [calculate, setCalculate] = useState(false);
 
   const appContext = {
-    N,
-    setN,
-    n,
-    setn,
-    k,
-    setk,
-    x,
-    setx,
+    deckSize,
+    setDeckSize,
+    cardsDrawn,
+    setCardsDrawn,
+    successInDeck,
+    setSuccessInDeck,
+    successInHand,
+    setSuccessInHand,
+    calculate,
+    setCalculate,
   };
 
   return <AppContext.Provider value={appContext}>{children}</AppContext.Provider>;
