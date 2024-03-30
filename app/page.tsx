@@ -3,6 +3,7 @@ import { AppContextProvider } from "./context/AppContext";
 import DataInput from "./modules/DataInput/DataInput";
 
 import { TabView, TabPanel } from "primereact/tabview";
+import { OpeningHandStat } from "./modules/OpeningHandStat/OpeningHandStat";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
         <br />
         <TabView className="surface-50 border-round">
           <TabPanel header="Opening Hand">
+            <OpeningHandStat />
             <p className="m-0">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
               aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
