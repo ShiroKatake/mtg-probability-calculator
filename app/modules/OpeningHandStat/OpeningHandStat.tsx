@@ -24,8 +24,6 @@ export const OpeningHandStat: React.FC = () => {
     },
     scales: {
       y: {
-        max: 100,
-        min: 0,
         ticks: {
           callback: function (value: any) {
             return value + "%";
