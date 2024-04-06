@@ -10,6 +10,7 @@
     "test": "jest --coverage --silent=false"
   },
   "dependencies": {
+    "chart.js": "^4.4.2",
     "next": "14.1.4",
     "primeflex": "^3.3.1",
     "primereact": "^10.6.0",

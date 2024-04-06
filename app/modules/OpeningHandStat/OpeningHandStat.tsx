@@ -1,15 +1,62 @@
+import { Chart } from "primereact/chart";
 import { useAppContext } from "@/app/context/AppContext";
-import { hypergeometric } from "@/app/utils/hypergeometric/hypergeometric";
-import { percentage } from "@/app/utils/percentage/percentage";
+import { hypergeometric, hypergeometricKOrMore } from "@utils/hypergeometric/hypergeometric";
+import { percentage } from "@utils/percentage/percentage";
+import { round } from "@utils/round/round";
 
-interface Props {
-  children?: React.ReactNode;
-}
-
-export const OpeningHandStat: React.FC<Props> = ({ children }) => {
+export const OpeningHandStat: React.FC = () => {
   const { deckSize, cardsDrawn, successInDeck, successInHand, calculate } = useAppContext();
 
-  const pExact = percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, successInHand));
+  const data: any = {
+    labels: [],
+    datasets: [
+      {
+        label: "Probability",
+        data: [],
+        borderWidth: 1,
+      },
+    ],
+  };
 
-  return calculate && <div>{pExact}</div>;
+  const option = {
+    plugins: {
+      legend: false,
+    },
+    scales: {
+      y: {
+        max: 100,
+        min: 0,
+        ticks: {
+          callback: function (value: any) {
+            return value + "%";
+          },
+        },
+      },
+    },
+  };
+
+  for (let i = 0; i <= cardsDrawn; i++) {
+    const probability = hypergeometric(deckSize, cardsDrawn, successInDeck, i);
+    if (probability < 0.001) break;
+    data.labels.push(`${i} cards`);
+    data.datasets[0].data.push(round(probability * 100, 1));
+  }
+
+  return (
+    calculate && (
+      <div>
+        <p>
+          Chance to draw {successInHand} or more of the wanted cards:{" "}
+          {percentage(hypergeometricKOrMore(deckSize, cardsDrawn, successInDeck, successInHand))}
+        </p>
+        <p>
+          Chance to draw exactly {successInHand} of the wanted cards:{" "}
+          {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, successInHand))}
+        </p>
+        <p>Chance to draw 0 of the wanted cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
+
+        <Chart type="bar" data={data} options={option} />
+      </div>
+    )
+  );
 };
