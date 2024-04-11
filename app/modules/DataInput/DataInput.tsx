@@ -52,20 +52,20 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         setValue={setx}
       />
       <div className="grid">
-        <div className="col-offset-3 md:col-offset-8 col-6 sm:col-3 lg:col-3">
-        <Button
-          className="w-full"
-          size="small"
-          label="Calculate"
-          onClick={(e) => {
-            e.preventDefault();
-            setDeckSize(N);
-            setCardsDrawn(n);
-            setSuccessInDeck(k);
-            setSuccessInHand(x);
-            setCalculate(true);
-          }}
-        />
+        <div className="col-offset-3 sm:col-offset-7 md:col-offset-8 col-6 sm:col-3 lg:col-3">
+          <Button
+            className="w-full"
+            size="small"
+            label="Calculate"
+            onClick={(e) => {
+              e.preventDefault();
+              setDeckSize(N);
+              setCardsDrawn(n);
+              setSuccessInDeck(k);
+              setSuccessInHand(x);
+              setCalculate(true);
+            }}
+          />
         </div>
       </div>
     </form>
