@@ -11,14 +11,14 @@ interface InputProps {
 
 export const Input: React.FC<InputProps> = ({ label, description, id, name, value, setValue }) => {
   return (
-    <div className="flex">
-      <label className="w-4" htmlFor={id}>
+    <div className="grid">
+      <label className="col-12 sm:col-7 md:col-4" htmlFor={id}>
         <div>{label}</div>
         <div className="text-xs">{description}</div>
       </label>
       <InputNumber
-        className="w-1"
-        inputClassName="w-1"
+        className="col-12 sm:col-3 lg:col-2"
+        inputClassName="w-full"
         id={id}
         name={name}
         value={value}
