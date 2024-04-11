@@ -12,13 +12,16 @@ interface InputProps {
 export const Input: React.FC<InputProps> = ({ label, description, id, name, value, setValue }) => {
   return (
     <div className="grid">
-      <label className="col-12 sm:col-7 md:col-4" htmlFor={id}>
-        <div>{label}</div>
-        <div className="text-xs">{description}</div>
-      </label>
+      <div className="col-12 sm:col-7 md:col-8">
+        <label htmlFor={id}>{label}</label>
+        <small id={`${label}-${id}`} className="block text-xs">
+          {description}
+        </small>
+      </div>
       <InputNumber
-        className="col-12 sm:col-3 lg:col-2"
+        className="col-12 sm:col-3 lg:col-3"
         inputClassName="w-full"
+        aria-describedby={`${label}-${id}`}
         id={id}
         name={name}
         value={value}

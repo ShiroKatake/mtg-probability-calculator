@@ -5,7 +5,11 @@ import { useAppContext } from "@/app/context/AppContext";
 import { useState } from "react";
 import { GridRuler } from "@/app/utils/gridRuler/gridRuler";
 
-export default function Home() {
+interface DataInputProps {
+  className?: string;
+}
+
+export const DataInput: React.FC<DataInputProps> = ({ className }) => {
   const { setDeckSize, setCardsDrawn, setSuccessInDeck, setSuccessInHand, setCalculate } = useAppContext();
   const [N, setN] = useState(99);
   const [n, setn] = useState(7);
@@ -13,11 +17,11 @@ export default function Home() {
   const [x, setx] = useState(1);
 
   return (
-    <form className="flex flex-column gap-3">
+    <form className={`flex flex-column gap-2 sm:gap-3 ${className}`}>
       {/* <GridRuler /> */}
       <Input
         label="Population Size"
-        description="Cards in your deck / library you are drawing from"
+        description="Number of cards in the deck / library"
         id="input"
         name="N"
         value={N}
@@ -25,7 +29,7 @@ export default function Home() {
       />
       <Input
         label="Sample Size"
-        description="Number of cards we are drawing ex. cards in opening hand"
+        description="Number of cards we are drawing in opening hand"
         id="input"
         name="n"
         value={n}
@@ -41,13 +45,14 @@ export default function Home() {
       />
       <Input
         label="Successes in Sample"
-        description="Number of wanted cards you want to draw"
+        description="Number of wanted cards you want to draw in your opening hand"
         id="input"
         name="x"
         value={x}
         setValue={setx}
       />
-      <div className="md:col-offset-4 sm:col-3 lg:col-2">
+      <div className="grid">
+        <div className="col-offset-3 md:col-offset-8 col-6 sm:col-3 lg:col-3">
         <Button
           className="w-full"
           size="small"
@@ -61,7 +66,8 @@ export default function Home() {
             setCalculate(true);
           }}
         />
+        </div>
       </div>
     </form>
   );
-}
+};

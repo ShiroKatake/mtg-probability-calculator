@@ -20,6 +20,13 @@ export const OpeningHandStat: React.FC = () => {
 
   const option = {
     plugins: {
+      title: {
+        display: true,
+        text: "Probability to draw",
+        font: {
+          size: 14,
+        },
+      },
       legend: false,
     },
     scales: {
