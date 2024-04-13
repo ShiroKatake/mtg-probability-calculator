@@ -16,7 +16,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
   const [n, setn] = useState(7);
   const [k, setk] = useState(10);
   const [min, setMinValue] = useState(1);
-  const [max, setMaxValue] = useState(2);
+  const [max, setMaxValue] = useState(1);
 
   return (
     <form className={`flex flex-column gap-2 sm:gap-3 ${className}`}>
