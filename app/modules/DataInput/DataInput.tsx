@@ -54,7 +54,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         value={min}
         setValue={setMinValue}
       >
-        <Inplace closable onOpen={() => setMaxValue(min + 1)} onClose={() => setMaxValue(min)} className="flex col">
+        <Inplace closable onClose={() => setMaxValue(min)} className="flex col">
           <InplaceDisplay>{"Add range?"}</InplaceDisplay>
           <InplaceContent>
             <span className="pr-2">to</span>
