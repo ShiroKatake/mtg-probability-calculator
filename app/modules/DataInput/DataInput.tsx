@@ -20,7 +20,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
     <form className={`flex flex-column gap-2 sm:gap-3 ${className}`}>
       {/* <GridRuler /> */}
       <Input
-        label="Population Size"
+        label="Deck Size"
         description="Number of cards in the deck / library"
         id="input"
         name="N"
@@ -28,7 +28,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         setValue={setN}
       />
       <Input
-        label="Sample Size"
+        label="Opening Hand Size"
         description="Number of cards we are drawing in opening hand"
         id="input"
         name="n"
@@ -36,7 +36,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         setValue={setn}
       />
       <Input
-        label="Successes in Population"
+        label="Wanted Cards in Deck"
         description="Number of cards you want that is in the deck / library"
         id="input"
         name="k"
@@ -44,15 +44,15 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         setValue={setk}
       />
       <Input
-        label="Successes in Sample"
-        description="Number of wanted cards you want to draw in your opening hand"
+        label="Wanted Cards in Hand"
+        description="Number of wanted cards you want in your opening hand"
         id="input"
         name="x"
         value={x}
         setValue={setx}
       />
       <div className="grid">
-        <div className="col-offset-3 sm:col-offset-7 md:col-offset-8 col-6 sm:col-3 lg:col-3">
+        <div className="col-offset-3 sm:col-offset-9 col-6 sm:col-3">
           <Button
             className="w-full"
             size="small"
