@@ -72,7 +72,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         </Inplace>
       </Input>
       <div className="grid">
-        <div className="col-offset-3 sm:col-offset-9 col">
+        <div className="col-offset-3 sm:col-offset-9 col-6">
           <Button
             className="w-full"
             size="small"
