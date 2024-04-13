@@ -17,6 +17,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
   const [k, setk] = useState(10);
   const [min, setMinValue] = useState(1);
   const [max, setMaxValue] = useState(1);
+  const [isCalculatingRange, setIsCalculatingRange] = useState(false);
 
   return (
     <form className={`flex flex-column gap-2 sm:gap-3 ${className}`}>
@@ -54,7 +55,15 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
         value={min}
         setValue={setMinValue}
       >
-        <Inplace closable onClose={() => setMaxValue(min)} className="flex col">
+        <Inplace
+          closable
+          onOpen={() => setIsCalculatingRange(true)}
+          onClose={() => {
+            setMaxValue(min);
+            setIsCalculatingRange(false);
+          }}
+          className="flex col"
+        >
           <InplaceDisplay>{"Add range?"}</InplaceDisplay>
           <InplaceContent>
             <span className="pr-2">to</span>
@@ -82,8 +91,8 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
               setDeckSize(N);
               setCardsDrawn(n);
               setSuccessInDeck(k);
-              setSuccessMin(min);
-              setSuccessMax(max);
+              setSuccessMin(min > max ? max : min);
+              setSuccessMax(isCalculatingRange ? (max > min ? max : min) : min);
               setCalculate(true);
             }}
           />
