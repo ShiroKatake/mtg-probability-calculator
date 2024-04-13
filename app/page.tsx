@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <main className="grid">
       <AppContextProvider>
-        <DataInput className="col-12 lg:col" />
-        <div className="col-12 lg:col max-w-full">
+        <DataInput className="col-12 xl:col-6" />
+        <div className="col max-w-full">
           <TabView className="surface-50 border-round" scrollable>
             <TabPanel header="Opening Hand">
               <OpeningHandStat />

@@ -5,13 +5,13 @@ import { percentage } from "@utils/percentage/percentage";
 import { round } from "@utils/round/round";
 
 export const OpeningHandStat: React.FC = () => {
-  const { deckSize, cardsDrawn, successInDeck, successInHand, calculate } = useAppContext();
+  const { deckSize, cardsDrawn, successInDeck, successMin, successMax, calculate } = useAppContext();
 
   const data: any = {
     labels: [],
     datasets: [
       {
-        label: "Probability",
+        label: "Chance",
         data: [],
         borderWidth: 1,
       },
@@ -22,7 +22,7 @@ export const OpeningHandStat: React.FC = () => {
     plugins: {
       title: {
         display: true,
-        text: "Probability to draw",
+        text: "Chance to draw exactly:",
         font: {
           size: 14,
         },
@@ -40,25 +40,30 @@ export const OpeningHandStat: React.FC = () => {
     },
   };
 
-  for (let i = 0; i <= cardsDrawn; i++) {
-    const probability = hypergeometric(deckSize, cardsDrawn, successInDeck, i);
-    if (probability < 0.001) break;
-    data.labels.push(`${i} cards`);
-    data.datasets[0].data.push(round(probability * 100, 1));
+  let totalProbability = 0;
+  if (calculate) {
+    for (let i = 0; i <= cardsDrawn; i++) {
+      const probability = hypergeometric(deckSize, cardsDrawn, successInDeck, i);
+      data.labels.push(`${i} cards`);
+      data.datasets[0].data.push(round(probability * 100, 1));
+      if (i >= successMin && i <= successMax) totalProbability += probability;
+    }
+  }
+
+  let rangeText = "";
+  if (successMin === successMax) {
+    rangeText = `${successMin}`;
+  } else {
+    rangeText = `${successMin} to ${successMax}`;
   }
 
   return (
     calculate && (
       <div>
         <p>
-          Chance to draw {successInHand} or more of the wanted cards:{" "}
-          {percentage(hypergeometricKOrMore(deckSize, cardsDrawn, successInDeck, successInHand))}
+          Chance to draw {rangeText} of the desired cards: {percentage(totalProbability)}
         </p>
-        <p>
-          Chance to draw exactly {successInHand} of the wanted cards:{" "}
-          {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, successInHand))}
-        </p>
-        <p>Chance to draw 0 of the wanted cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
+        <p>Chance to draw 0 of the desired cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
 
         <Chart type="bar" data={data} options={option} />
       </div>

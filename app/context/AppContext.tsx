@@ -11,8 +11,10 @@ interface IAppContext {
   setCardsDrawn: (cardsDrawn: number) => void;
   successInDeck: number;
   setSuccessInDeck: (successInDeck: number) => void;
-  successInHand: number;
-  setSuccessInHand: (successInHand: number) => void;
+  successMin: number;
+  setSuccessMin: (min: number) => void;
+  successMax: number;
+  setSuccessMax: (max: number) => void;
   calculate: boolean;
   setCalculate: (calculate: boolean) => void;
 }
@@ -25,6 +27,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [successInDeck, setSuccessInDeck] = useState(10);
   const [successInHand, setSuccessInHand] = useState(1);
   const [calculate, setCalculate] = useState(false);
+  const [successMin, setSuccessMin] = useState(1);
+  const [successMax, setSuccessMax] = useState(2);
 
   const appContext = {
     deckSize,
@@ -33,8 +37,10 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     setCardsDrawn,
     successInDeck,
     setSuccessInDeck,
-    successInHand,
-    setSuccessInHand,
+    successMin,
+    setSuccessMin,
+    successMax,
+    setSuccessMax,
     calculate,
     setCalculate,
   };
