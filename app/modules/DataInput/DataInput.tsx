@@ -6,11 +6,8 @@ import { useState } from "react";
 import { GridRuler } from "@/app/utils/gridRuler/gridRuler";
 import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
 import { InputNumber } from "primereact/inputnumber";
-interface DataInputProps {
-  className?: string;
-}
 
-export const DataInput: React.FC<DataInputProps> = ({ className }) => {
+export const DataInput: React.FC = () => {
   const { setDeckSize, setCardsDrawn, setSuccessInDeck, setSuccessMin, setSuccessMax, setCalculate } = useAppContext();
   const [N, setN] = useState(99);
   const [n, setn] = useState(7);
@@ -20,7 +17,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
   const [isCalculatingRange, setIsCalculatingRange] = useState(false);
 
   return (
-    <form className={`flex flex-column gap-2 sm:gap-3 ${className}`}>
+    <form className={`flex flex-column gap-2 sm:gap-3`}>
       {/* <GridRuler /> */}
       <Input
         label="Deck Size"
@@ -91,8 +88,8 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
               setDeckSize(N);
               setCardsDrawn(n);
               setSuccessInDeck(k);
-              setSuccessMin(isCalculatingRange ? (min > max ? max : min) : min);
-              setSuccessMax(isCalculatingRange ? (max > min ? max : min) : min);
+              setSuccessMin(isCalculatingRange && min > max ? max : min);
+              setSuccessMax(isCalculatingRange && max > min ? max : min);
               setCalculate(true);
             }}
           />
