@@ -91,7 +91,7 @@ export const DataInput: React.FC<DataInputProps> = ({ className }) => {
               setDeckSize(N);
               setCardsDrawn(n);
               setSuccessInDeck(k);
-              setSuccessMin(min > max ? max : min);
+              setSuccessMin(isCalculatingRange ? (min > max ? max : min) : min);
               setSuccessMax(isCalculatingRange ? (max > min ? max : min) : min);
               setCalculate(true);
             }}
