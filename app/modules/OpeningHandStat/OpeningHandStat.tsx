@@ -4,9 +4,17 @@ import { hypergeometric } from "@utils/hypergeometric/hypergeometric";
 import { percentage } from "@utils/percentage/percentage";
 import { round } from "@utils/round/round";
 import { rangeText } from "@/app/utils/rangeText/rangeText";
+import { Input } from "../DataInput/components/Input/Input";
+import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
+import { InputNumber } from "primereact/inputnumber";
+import { useState } from "react";
 
 export const OpeningHandStat: React.FC = () => {
-  const { deckSize, cardsDrawn, successInDeck, successMin, successMax, calculate, setOpeningHandChance } = useAppContext();
+  const { deckSize, cardsDrawn, successInDeck, successMin, setSuccessMin, successMax, setSuccessMax, calculate } =
+    useAppContext();
+
+  const [min, setMinValue] = useState(1);
+  const [max, setMaxValue] = useState(1);
 
   const data: any = {
     labels: [],
@@ -51,17 +59,69 @@ export const OpeningHandStat: React.FC = () => {
     }
   }
 
-  setOpeningHandChance(totalProbability);
+  const averageMulliganCount = round(1 / totalProbability, 0);
+
+  const setMin = (value: number) => {
+    setMinValue(() => {
+      setSuccessMin(value);
+      return value;
+    });
+  };
+
+  const setMax = (value: number) => {
+    setMaxValue(() => {
+      setSuccessMax(value);
+      return value;
+    });
+  };
 
   return (
-    calculate && (
-      <div>
-        <p>
-          Chance to draw {rangeText(successMin, successMax)} of the desired cards: {percentage(totalProbability)}
-        </p>
-        <p>Chance to draw 0 of the desired cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
-        <Chart type="bar" data={data} options={option} />
-      </div>
-    )
+    <div>
+      <Input
+        className="col-12 md:col-2"
+        label="Desired Cards to draw"
+        description="Number of desired cards to draw in hand"
+        id="min"
+        name="min"
+        value={min}
+        setValue={setMin}
+      >
+        <Inplace
+          closable
+          onClose={() => {
+            setMaxValue(min);
+          }}
+          className="flex col"
+        >
+          <InplaceDisplay>{"Add range?"}</InplaceDisplay>
+          <InplaceContent>
+            <span className="pr-2">to</span>
+            <InputNumber
+              className="w-5 md:w-8 lg:w-9 xl:w-7"
+              inputClassName="w-full"
+              id="max"
+              name="max"
+              value={max}
+              onChange={(e) => setMax(e.value ?? 0)}
+              autoFocus
+              showButtons
+            />
+          </InplaceContent>
+        </Inplace>
+      </Input>
+      {calculate && (
+        <>
+          <p>
+            Chance to mulligan with {rangeText(successMin, successMax)} desired cards: {percentage(totalProbability)}
+          </p>
+          <p>Chance to mulligan with 0 desired cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
+          <Chart type="bar" data={data} options={option} />
+          <p>
+            It&apos;ll take {averageMulliganCount} mulligans on average to draw a hand with {rangeText(successMin, successMax)}{" "}
+            desired cards
+          </p>
+        </>
+      )}
+    </div>
   );
 };

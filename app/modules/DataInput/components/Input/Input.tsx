@@ -2,6 +2,7 @@ import { InputNumber } from "primereact/inputnumber";
 
 interface InputProps {
   className?: string;
+  labelClassName?: string;
   label: string;
   description: string;
   id: string;
@@ -11,10 +12,20 @@ interface InputProps {
   children?: React.ReactNode;
 }
 
-export const Input: React.FC<InputProps> = ({ className, label, description, id, name, value, setValue, children }) => {
+export const Input: React.FC<InputProps> = ({
+  className,
+  labelClassName,
+  label,
+  description,
+  id,
+  name,
+  value,
+  setValue,
+  children,
+}) => {
   return (
     <div className="grid">
-      <div className="col-12 md:col-6">
+      <div className={labelClassName || "col-12 md:col-6"}>
         <label htmlFor={id}>{label}</label>
         <small id={`${label}-${id}`} className="block text-xs">
           {description}
