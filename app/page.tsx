@@ -3,6 +3,7 @@ import { AppContextProvider } from "./context/AppContext";
 import { DataInput } from "./modules/DataInput/DataInput";
 import { TabView, TabPanel } from "primereact/tabview";
 import { OpeningHandStat } from "./modules/OpeningHandStat/OpeningHandStat";
+import { Mulligan } from "./modules/Mulligan/Mulligan";
 
 export default function Home() {
   return (
@@ -17,9 +18,12 @@ export default function Home() {
               <OpeningHandStat />
             </TabPanel>
             <TabPanel header="Mulligan">
-              <p>Coming soon!</p>
+              <Mulligan />
             </TabPanel>
             <TabPanel header="Drop Miss">
+              <p>Coming soon!</p>
+            </TabPanel>
+            <TabPanel header="Thrumming Stone">
               <p>Coming soon!</p>
             </TabPanel>
           </TabView>

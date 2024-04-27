@@ -6,7 +6,7 @@
  */
 export const rangeText = (min: number, max: number) => {
   if (min === max) {
-    return `${min}`;
+    return `exactly ${min}`;
   }
   if (max < min) {
     return `${max} to ${min}`;

@@ -5,7 +5,7 @@ describe('Hypergeometric distribution calculator', () => {
     expect(rangeText(3, 4)).toBe("3 to 4");
   });
   it('should return just one value', () => {
-    expect(rangeText(2, 2)).toBe("2");
+    expect(rangeText(2, 2)).toBe("exactly 2");
   });
   it('should second value first', () => {
     expect(rangeText(5, 1)).toBe("1 to 5");
