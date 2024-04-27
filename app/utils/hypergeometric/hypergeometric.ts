@@ -1,13 +1,14 @@
 import { combination } from "../combination/combination";
+import { round } from "../round/round";
 
 /**
  * Calculates the probability of x successes in n draws from a population of size N,
  * using the Hypergeometric distribution.
  *
- * @param N Size of the population
- * @param n Number of samples drawn from the population
- * @param K Number of successes in sample
- * @param k Number of successes in sample drawn
+ * @param N Deck size
+ * @param n Starting hand size
+ * @param K Desired cards in deck
+ * @param k Desired cards in starting hand
  * @returns The probability of x successes in n draws from a population of size N
  */
 
@@ -24,12 +25,16 @@ export const hypergeometricKOrMore = (N: number, n: number, K: number, k: number
   return probability;
 };
 
-export const dropMiss = (K: number, N: number = 99, n: number = 7) => {
+export const dropMiss = (N: number, n: number, K: number, x: number) => {
   let probability = 1;
-  let turn = 0;
+  let draw = 0;
+  const probabilityData = [];
   while (probability >= 0.5) {
-    turn++;
-    probability = hypergeometricKOrMore(N, n + turn, K, turn);
+    draw++;
+    probability = hypergeometricKOrMore(N, n + draw, K, draw);
+    if (draw >= x) {
+      probabilityData.push(round(probability * 100, 2));
+    }
   }
-  return turn;
+  return probabilityData;
 };

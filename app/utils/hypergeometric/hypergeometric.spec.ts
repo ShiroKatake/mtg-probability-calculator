@@ -15,6 +15,7 @@ describe('Hypergeometric distribution calculator', () => {
     expect(round(hypergeometricKOrMore(99, 9, 37, 2), 3)).toBe(0.916);
   });
   it('should return the expected probability', () => {
-    expect(dropMiss(37)).toBe(5);
+    expect(dropMiss(99, 7, 37, 0).length).toBe(5);
+    expect(dropMiss(99, 7, 41, 0).length).toBe(6);
   });
 });
