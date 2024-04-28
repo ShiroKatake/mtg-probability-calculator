@@ -7,14 +7,15 @@ import { rangeText } from "@/app/utils/rangeText/rangeText";
 import { Input } from "../DataInput/components/Input/Input";
 import { Inplace, InplaceDisplay, InplaceContent } from "primereact/inplace";
 import { InputNumber } from "primereact/inputnumber";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const OpeningHandStat: React.FC = () => {
   const { deckSize, cardsDrawn, successInDeck, successMin, setSuccessMin, successMax, setSuccessMax, calculate } =
     useAppContext();
 
-  const [min, setMinValue] = useState(1);
-  const [max, setMaxValue] = useState(1);
+  const [min, setMinValue] = useState(3);
+  const [max, setMaxValue] = useState(3);
+  const [hasRange, setHasRange] = useState(false);
 
   const data: any = {
     labels: [],
@@ -61,19 +62,10 @@ export const OpeningHandStat: React.FC = () => {
 
   const averageMulliganCount = round(1 / totalProbability, 0);
 
-  const setMin = (value: number) => {
-    setMinValue(() => {
-      setSuccessMin(value);
-      return value;
-    });
-  };
-
-  const setMax = (value: number) => {
-    setMaxValue(() => {
-      setSuccessMax(value);
-      return value;
-    });
-  };
+  useEffect(() => {
+    setSuccessMin(hasRange ? (min > max ? max : min) : min);
+    setSuccessMax(hasRange ? (min > max ? min : max) : min);
+  }, [hasRange, min, max, setSuccessMax, setSuccessMin]);
 
   return (
     <div>
@@ -84,12 +76,16 @@ export const OpeningHandStat: React.FC = () => {
         id="min"
         name="min"
         value={min}
-        setValue={setMin}
+        setValue={setMinValue}
       >
         <Inplace
           closable
+          onOpen={() => {
+            setHasRange(true);
+          }}
           onClose={() => {
             setMaxValue(min);
+            setHasRange(false);
           }}
           className="flex col"
         >
@@ -102,7 +98,7 @@ export const OpeningHandStat: React.FC = () => {
               id="max"
               name="max"
               value={max}
-              onChange={(e) => setMax(e.value ?? 0)}
+              onChange={(e) => setMaxValue(e.value ?? 0)}
               autoFocus
               showButtons
             />

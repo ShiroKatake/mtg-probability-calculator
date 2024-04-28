@@ -97,7 +97,7 @@ export const DropMiss: React.FC = () => {
         <>
           <Chart type="bar" data={data} options={option} />
           <p>
-            Having drawn {desiredDrawn} desired cards, ({successInDeck - desiredDrawn} remaining in deck), you&apos;ll most likely
+            Having drawn {desiredDrawn} desired cards ({successInDeck - desiredDrawn} remaining in deck), you&apos;ll most likely
             miss after {probabilityData.length - 1} draw(s)
           </p>
         </>
