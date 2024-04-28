@@ -23,7 +23,7 @@ export const DataInput: React.FC = () => {
       />
       <Input
         label="Desired Cards in Deck"
-        description="Number of cards you want that is in the deck"
+        description="Number of cards you want currently in the deck"
         id="input"
         name="k"
         value={k}
