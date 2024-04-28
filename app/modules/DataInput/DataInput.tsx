@@ -8,7 +8,7 @@ export const DataInput: React.FC = () => {
   const { setDeckSize, setCardsDrawn, setSuccessInDeck, setCalculate } = useAppContext();
   const [N, setN] = useState(99);
   const [n, setn] = useState(7);
-  const [k, setk] = useState(12);
+  const [k, setk] = useState(37);
 
   return (
     <form className="flex flex-column gap-2">
