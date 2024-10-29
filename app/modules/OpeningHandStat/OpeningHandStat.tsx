@@ -125,15 +125,15 @@ export const OpeningHandStat: React.FC = () => {
       {calculate && (
         <>
           <p>
-            Chance to get exactly {rangeText(successMin, successMax)} desired
+            Chance to draw exactly {rangeText(successMin, successMax)} desired
             cards: {percentage(totalProbability)}
           </p>
           <p>
-            Chance to get {successMin} or more desired cards:{" "}
+            Chance to draw {successMin} or more desired cards:{" "}
             {percentage(atLeastProbability)}
           </p>
           <p>
-            Chance to get 0 desired cards:{" "}
+            Chance to draw 0 desired cards:{" "}
             {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}
           </p>
           <Chart type="bar" data={data} options={option} />
