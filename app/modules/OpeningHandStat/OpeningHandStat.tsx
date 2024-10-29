@@ -10,8 +10,16 @@ import { InputNumber } from "primereact/inputnumber";
 import { useEffect, useState } from "react";
 
 export const OpeningHandStat: React.FC = () => {
-  const { deckSize, cardsDrawn, successInDeck, successMin, setSuccessMin, successMax, setSuccessMax, calculate } =
-    useAppContext();
+  const {
+    deckSize,
+    cardsDrawn,
+    successInDeck,
+    successMin,
+    setSuccessMin,
+    successMax,
+    setSuccessMax,
+    calculate,
+  } = useAppContext();
 
   const [min, setMinValue] = useState(3);
   const [max, setMaxValue] = useState(3);
@@ -51,13 +59,22 @@ export const OpeningHandStat: React.FC = () => {
   };
 
   let totalProbability = 0;
+  let atLeastProbability = 0;
   if (calculate) {
+    let minOrLessProbability = 0;
     for (let i = 0; i <= cardsDrawn; i++) {
-      const probability = hypergeometric(deckSize, cardsDrawn, successInDeck, i);
+      const probability = hypergeometric(
+        deckSize,
+        cardsDrawn,
+        successInDeck,
+        i
+      );
       data.labels.push(`${i} cards`);
       data.datasets[0].data.push(round(probability * 100, 1));
+      if (i < successMin) minOrLessProbability += probability;
       if (i >= successMin && i <= successMax) totalProbability += probability;
     }
+    atLeastProbability = 1 - minOrLessProbability;
   }
 
   const averageMulliganCount = round(1 / totalProbability, 0);
@@ -108,13 +125,21 @@ export const OpeningHandStat: React.FC = () => {
       {calculate && (
         <>
           <p>
-            Chance to mulligan with {rangeText(successMin, successMax)} desired cards: {percentage(totalProbability)}
+            Chance to get exactly {rangeText(successMin, successMax)} desired
+            cards: {percentage(totalProbability)}
           </p>
-          <p>Chance to mulligan with 0 desired cards: {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}</p>
+          <p>
+            Chance to get {successMin} or more desired cards:{" "}
+            {percentage(atLeastProbability)}
+          </p>
+          <p>
+            Chance to get 0 desired cards:{" "}
+            {percentage(hypergeometric(deckSize, cardsDrawn, successInDeck, 0))}
+          </p>
           <Chart type="bar" data={data} options={option} />
           <p>
-            It&apos;ll take {averageMulliganCount} mulligans on average to draw a hand with {rangeText(successMin, successMax)}{" "}
-            desired cards
+            It&apos;ll take {averageMulliganCount} mulligans on average to draw
+            a hand with {rangeText(successMin, successMax)} desired cards
           </p>
         </>
       )}
