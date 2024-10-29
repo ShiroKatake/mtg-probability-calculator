@@ -125,8 +125,8 @@ export const OpeningHandStat: React.FC = () => {
       {calculate && (
         <>
           <p>
-            Chance to draw exactly {rangeText(successMin, successMax)} desired
-            cards: {percentage(totalProbability)}
+            Chance to draw {rangeText(successMin, successMax)} desired cards:{" "}
+            {percentage(totalProbability)}
           </p>
           <p>
             Chance to draw {successMin} or more desired cards:{" "}
