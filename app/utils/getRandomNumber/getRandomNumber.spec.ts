@@ -1,6 +1,6 @@
 import {getRandomNumber} from "./getRandomNumber";
 
-describe("combination calculator", () => {
+describe("random number generator", () => {
   it("When Math.random() returns minimum, returns smallest value", () => {
     jest.spyOn(Math, "random").mockReturnValue(0);
     expect(getRandomNumber(10, 20)).toBe(10);
