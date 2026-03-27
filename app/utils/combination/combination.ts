@@ -1,4 +1,4 @@
-import { factorial } from "../factorial/factorial";
+import {factorial} from "../factorial/factorial";
 
 /**
  * Calculates the number of ways to select r samples from a population of size n.
@@ -9,6 +9,9 @@ import { factorial } from "../factorial/factorial";
  */
 
 export const combination = (n: number, r: number): number => {
+  if (r > n) {
+    return 0;
+  }
   let result = factorial(n) / (factorial(r) * factorial(n - r));
   return Number(result);
 };
