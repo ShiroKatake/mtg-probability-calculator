@@ -25,4 +25,10 @@ describe("random number generator", () => {
     jest.spyOn(Math, "random").mockReturnValue(0);
     expect(getRandomNumber(13)).toBe(0);
   });
+
+  it("getRandomNumber can automatically figure out min and max", () => {
+    jest.spyOn(Math, "random").mockReturnValue(0);
+    expect(getRandomNumber(13, 17)).toBe(13);
+    expect(getRandomNumber(17, 13)).toBe(13);
+  });
 });
