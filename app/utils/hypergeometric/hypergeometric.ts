@@ -1,7 +1,6 @@
-import {CardGroup} from "@/app/hooks/useCardGroups";
+import {CardGroup} from "@/hooks/useCardGroups";
 import {combination} from "../combination/combination";
 import {round} from "../round/round";
-import {rootCertificates} from "tls";
 
 /**
  * Calculates the probability of x successes in n draws from a population of size N,
@@ -59,13 +58,6 @@ export const hypergeometricComprehensive = (
   handSize: number,
   cardGroups: Pick<CardGroup, "desiredInDeck">[],
 ) => {
-  if (cardGroups.length !== 2) {
-    return {
-      table: [],
-      sortedFlatArray: [],
-    };
-  }
-
   const resultTable: number[][] = [];
 
   const iMax = Math.min(handSize, cardGroups[0].desiredInDeck);
