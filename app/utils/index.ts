@@ -3,6 +3,7 @@ export * from "./factorial/factorial";
 export * from "./getRandomNumber/getRandomNumber";
 export * from "./hsbUtils/hsbUtils";
 export * from "./hypergeometric/hypergeometric";
+export * from "./normalize/normalize";
 export * from "./scaleBetween/scaleBetween";
 export * from "./percentage/percentage";
 export * from "./rangeText/rangeText";
