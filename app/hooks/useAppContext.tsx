@@ -1,3 +1,4 @@
+"use client";
 import {createContext, useContext, useRef, useState} from "react";
 import {ConfirmDialog} from "primereact/confirmdialog";
 import {Toast} from "primereact/toast";
