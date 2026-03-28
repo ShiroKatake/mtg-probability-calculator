@@ -1,34 +1,43 @@
 "use client";
-import { Input } from "./components/Input/Input";
-import { Button } from "primereact/button";
-import { useAppContext } from "@/app/context/AppContext";
-import { useState } from "react";
+import {useState} from "react";
+import {InputNumber} from "primereact/inputnumber";
+import {Button} from "@/components/Button/Button";
+import {CardGroups} from "@/components/CardGroup/CardGroup";
+import {InputWrapper} from "@/components/Input/Input";
+import {useAppContext} from "@/hooks/useAppContext";
 
 export const DataInput: React.FC = () => {
-  const { setDeckSize, setCardsDrawn, setSuccessInDeck, setCalculate } = useAppContext();
-  const [N, setN] = useState(99);
-  const [n, setn] = useState(7);
-  const [k, setk] = useState(37);
+  const {deckSize, handSize, setAppData, setCalculate} = useAppContext();
+  const [deckSizeValue, setDeckSizeValue] = useState(deckSize);
+  const [handSizeValue, setHandSizeValue] = useState(handSize);
 
   return (
     <form className="flex flex-column gap-2">
-      <Input label="Deck Size" description="Number of cards in the deck" id="input" name="N" value={N} setValue={setN} />
-      <Input
+      <InputWrapper label="Deck Size" description="Number of cards in the deck">
+        <InputNumber
+          className="w-full"
+          inputClassName="w-full"
+          name="deckSize"
+          value={deckSizeValue}
+          onValueChange={(e) => setDeckSizeValue(e.value ?? 0)}
+          showButtons
+        />
+      </InputWrapper>
+      <InputWrapper
         label="Starting Hand Size"
-        description="Number of cards we are drawing in starting hand"
-        id="input"
-        name="n"
-        value={n}
-        setValue={setn}
-      />
-      <Input
-        label="Desired Cards in Deck"
-        description="Number of cards you want currently in the deck"
-        id="input"
-        name="k"
-        value={k}
-        setValue={setk}
-      />
+        description="Number of cards to draw in starting hand"
+      >
+        <InputNumber
+          className="w-full"
+          inputClassName="w-full"
+          name="handSize"
+          value={handSizeValue}
+          onValueChange={(e) => setHandSizeValue(e.value ?? 0)}
+          showButtons
+        />
+      </InputWrapper>
+
+      <CardGroups />
 
       <div className="grid">
         <div className="col-offset-3 md:col-offset-9 col-6 md:col-3">
@@ -36,11 +45,12 @@ export const DataInput: React.FC = () => {
             className="w-full"
             size="small"
             label="Calculate"
-            onClick={(e) => {
-              e.preventDefault();
-              setDeckSize(N);
-              setCardsDrawn(n);
-              setSuccessInDeck(k);
+            onClick={() => {
+              setAppData((prev) => ({
+                ...prev,
+                deckSize: deckSizeValue,
+                handSize: handSizeValue,
+              }));
               setCalculate(true);
             }}
           />
