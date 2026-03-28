@@ -1,30 +1,24 @@
 import {ColorPickerHSBType} from "primereact/colorpicker";
-import {getRandomNumber} from "../getRandomNumber/getRandomNumber";
+import {normalize} from "@utils";
 
-// NOTE: This random color generator has been weighted to
-// only generate colors that has brightness between 20% and 50%
-// and saturation between 30% and 90%
+// NOTE: This random color generator avoids green
+// because the default usage already had green
+// It also only generate colors with
+// brightness 50% and saturation 30%
 
-interface GetRandomHsbColorProps {
-  minHue?: number;
-  maxHue?: number;
-  minSaturation?: number;
-  maxSaturation?: number;
-  minBrightness?: number;
-  maxBrightness?: number;
-}
+export const getRandomHsb = (): ColorPickerHSBType => {
+  const green_hMin = 60;
+  const green_hMax = 180;
+  const hMax = 360;
+  const hNoGreen = hMax - (green_hMax - green_hMin);
 
-export const getRandomHsb = ({
-  minHue = 0,
-  maxHue = 360,
-  minSaturation = 0,
-  maxSaturation = 60,
-  minBrightness = 0,
-  maxBrightness = 30,
-}: GetRandomHsbColorProps = {}): ColorPickerHSBType => {
-  var h = getRandomNumber(minHue, maxHue);
-  var s = getRandomNumber(minSaturation, maxSaturation) + 30;
-  var b = getRandomNumber(minBrightness, maxBrightness) + 20;
+  const rand = Math.random();
+  const h =
+    normalize(rand, hNoGreen) < green_hMin
+      ? normalize(rand, hNoGreen)
+      : normalize(rand - 0.25, green_hMax, hMax);
+  const s = 50;
+  const b = 30;
   return {h, s, b};
 };
 
