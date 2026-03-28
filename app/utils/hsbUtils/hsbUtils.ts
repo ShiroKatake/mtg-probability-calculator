@@ -1,5 +1,5 @@
 import {ColorPickerHSBType} from "primereact/colorpicker";
-import {normalize} from "@utils";
+import {scaleBetween} from "@utils";
 
 // NOTE: This random color generator avoids green
 // because the default usage already had green
@@ -14,9 +14,9 @@ export const getRandomHsb = (): ColorPickerHSBType => {
 
   const rand = Math.random();
   const h =
-    normalize(rand, hNoGreen) < green_hMin
-      ? normalize(rand, hNoGreen)
-      : normalize(rand - 0.25, green_hMax, hMax);
+    scaleBetween(rand, hNoGreen) < green_hMin
+      ? scaleBetween(rand, hNoGreen)
+      : scaleBetween(rand - 0.25, green_hMax, hMax);
   const s = 50;
   const b = 30;
   return {h, s, b};
