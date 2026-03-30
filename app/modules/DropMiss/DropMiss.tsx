@@ -1,17 +1,19 @@
-import { useAppContext } from "@/app/context/AppContext";
-import { dropMiss } from "@/app/utils/hypergeometric/hypergeometric";
-import { Input } from "../DataInput/components/Input/Input";
-import { Chart } from "primereact/chart";
-import { Chart as ChartJS } from "chart.js";
+import {useState} from "react";
+import {useAppContext} from "@/hooks/useAppContext";
+import {dropMiss} from "@utils";
+import {InputNumber} from "primereact/inputnumber";
+import {Chart} from "primereact/chart";
+import {Chart as ChartJS} from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
-import { useState } from "react";
+import {InputWrapper} from "../../components/Input/Input";
 
 ChartJS.register(annotationPlugin);
 
 export const DropMiss: React.FC = () => {
-  const { deckSize, successInDeck, cardsDrawn, successMax, calculate } = useAppContext();
-  const [desiredDrawn, setDesiredCount] = useState(successMax);
-  const [unDesiredDrawn, setUndesiredCount] = useState(cardsDrawn - successMax);
+  const {deckSize, handSize: cardsDrawn, calculate} = useAppContext();
+  const [desiredDrawn, setDesiredCount] = useState(0);
+  const [unDesiredDrawn, setUndesiredCount] = useState(cardsDrawn - desiredDrawn);
+  const successInDeck = 37;
 
   const data: any = {
     labels: [],
@@ -19,6 +21,8 @@ export const DropMiss: React.FC = () => {
       {
         label: "Chance",
         data: [],
+        backgroundColor: "rgba(158, 46, 70, 0.9)",
+        borderColor: "rgb(180, 31, 51)",
         borderWidth: 1,
       },
     ],
@@ -49,7 +53,7 @@ export const DropMiss: React.FC = () => {
       },
       legend: false,
       annotation: {
-        annotations: { annotationLine },
+        annotations: {annotationLine},
       },
     },
     scales: {
@@ -64,7 +68,12 @@ export const DropMiss: React.FC = () => {
     },
   };
 
-  const probabilityData = dropMiss(deckSize, desiredDrawn + unDesiredDrawn, successInDeck, desiredDrawn);
+  const probabilityData = dropMiss(
+    deckSize,
+    desiredDrawn + unDesiredDrawn,
+    successInDeck,
+    desiredDrawn,
+  );
 
   for (let drawNumber = 0; drawNumber < probabilityData.length; drawNumber++) {
     data.datasets[0].data.push(probabilityData[drawNumber]);
@@ -73,32 +82,38 @@ export const DropMiss: React.FC = () => {
 
   return (
     <div className="flex flex-column gap-2">
-      <Input
-        className="col-12 md:col-5"
-        labelClassName="col-12 md:col-7"
+      <InputWrapper
         label="Desired Cards drawn"
         description="Number of desired cards you have drawn (include starting hand)"
-        id="input"
-        name="n"
-        value={desiredDrawn}
-        setValue={setDesiredCount}
-      />
-      <Input
-        className="col-12 md:col-5"
-        labelClassName="col-12 md:col-7"
+      >
+        <InputNumber
+          className="w-full"
+          inputClassName="w-full"
+          name="n"
+          value={desiredDrawn}
+          onValueChange={(e) => setDesiredCount(e.value ?? 0)}
+          showButtons
+        />
+      </InputWrapper>
+      <InputWrapper
         label="Undesired Cards drawn"
         description="Number of undesired cards you have drawn (include starting hand)"
-        id="input"
-        name="n"
-        value={unDesiredDrawn}
-        setValue={setUndesiredCount}
-      />
+      >
+        <InputNumber
+          className="w-full"
+          inputClassName="w-full"
+          name="n"
+          value={unDesiredDrawn}
+          onValueChange={(e) => setUndesiredCount(e.value ?? 0)}
+          showButtons
+        />
+      </InputWrapper>
       {calculate && (
         <>
           <Chart type="bar" data={data} options={option} />
           <p>
-            Having drawn {desiredDrawn} desired cards ({successInDeck - desiredDrawn} remaining in deck), you&apos;ll most likely
-            miss after {probabilityData.length - 1} more draw(s)
+            Having drawn {desiredDrawn} desired cards ({successInDeck - desiredDrawn} remaining in
+            deck), you&apos;ll most likely miss after {probabilityData.length - 1} more draw(s)
           </p>
         </>
       )}
